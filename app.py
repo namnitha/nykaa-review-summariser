@@ -1,12 +1,15 @@
+import time
+
 import streamlit as st
 from google import genai
 from google.genai import types
 
 client = genai.Client(
     api_key=st.secrets["GEMINI_API_KEY"],
-    http_options=types.HttpOptions(timeout=30000),
+    http_options=types.HttpOptions(timeout=60000),
 )
 MODEL = "gemini-3.8-flash"
+
 
 def summarise(reviews, stars):
     if len(reviews) == 0:
@@ -17,11 +20,15 @@ def summarise(reviews, stars):
         "Summarise them in one short paragraph. Mention what customers say most often. "
         "Use only what is in the reviews.\n\n" + "\n".join(reviews)
     )
-    try:
-        response = client.models.generate_content(model=MODEL, contents=prompt)
-        return response.text
-    except Exception as error:
-        return "Something went wrong: " + str(error)
+
+    for attempt in range(3):
+        try:
+            response = client.models.generate_content(model=MODEL, contents=prompt)
+            return response.text
+        except Exception as error:
+            if attempt == 2:
+                return "Something went wrong: " + str(error)
+            time.sleep(5)
 
 
 st.title("Nykaa review summariser")
