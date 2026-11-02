@@ -28,3 +28,25 @@ Python, Streamlit, Google Gemini API
 ## Limitations and next steps
 - Reviews are pasted in manually, not fetched automatically
 - Next: add 3-star reviews, and try different prompts to compare summary quality
+
+## Prompt experiment
+
+I tested 4 different prompts on the same 10 reviews (5 five-star, 5 four-star) of one foundation, and scored each from 1 to 5 on four questions: Accurate, Complete, Useful, Concise.
+
+| Prompt | Accurate | Complete | Useful | Concise | Total |
+|---|---|---|---|---|---|
+| A: simple | 4 | 4 | 4 | 3 | 15 |
+| B: structured | 3 | 4 | 4 | 2 | 13 |
+| C: shopper-focused | 4 | 4 | 4 | 1 | 13 |
+| D: short and strict | 4 | 4 | 5 | 4 | 17 |
+
+**What I found**
+- Prompts B and C were accurate but long and repetitive, up to 253 words in total. A shopper should not need a minute to read a summary.
+- Prompt B contradicted itself: its summary said the foundation does not oxidise, while its cons said it does. I fixed this by telling the AI to follow the majority view when reviews disagree.
+- Prompt C kept saying "real buyers", which added nothing, so I removed the phrase.
+- A 50-word limit risked cutting out important points, so I raised it to 50 words. Prompt D then wrote 78 words in total and scored best.
+
+**What I'd improve next**
+- Stop the AI saying "many reviewers" when only one said it
+- Test on more products and more reviews
+- Take the review as many "only say ‘many’ if three or more reviews agree"
