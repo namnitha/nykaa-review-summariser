@@ -4,7 +4,7 @@ A small web app that turns pasted customer reviews into quick insights.
 
 **Live app:** (https://nykaa-review-summariser-bbrxsbakbktntz2zoie3bq.streamlit.app/)
 
-![App screenshot](Screenshot 1.png)
+![App screenshot](screenshot.png)
 
 
 ## What it does
