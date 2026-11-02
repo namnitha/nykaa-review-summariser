@@ -1,4 +1,25 @@
 import streamlit as st
+from google import genai
+
+client = genai.Client(api_key=st.secrets["GEMINI_API_KEY"])
+MODEL = "gemini-3.8-flash"
+
+
+def summarise(reviews, stars):
+    if len(reviews) == 0:
+        return "No " + str(stars) + "-star reviews were pasted."
+
+    prompt = (
+        "Here are " + str(stars) + "-star customer reviews of a beauty product. "
+        "Summarise them in one short paragraph. Mention what customers say most often. "
+        "Use only what is in the reviews.\n\n" + "\n".join(reviews)
+    )
+    try:
+        response = client.models.generate_content(model=MODEL, contents=prompt)
+        return response.text
+    except Exception as error:
+        return "Something went wrong: " + str(error)
+
 
 st.title("Nykaa review summariser")
 
@@ -9,7 +30,7 @@ reviews = st.text_area(
     height=250,
 )
 
-if st.button("Sort reviews"):
+if st.button("Summarise reviews"):
     five_star = []
     four_star = []
 
@@ -20,10 +41,12 @@ if st.button("Sort reviews"):
         elif line.startswith("4:"):
             four_star.append(line[2:].strip())
 
-    st.subheader("5-star reviews (" + str(len(five_star)) + ")")
-    for review in five_star:
-        st.write("- " + review)
+    with st.spinner("Reading the reviews..."):
+        five_summary = summarise(five_star, 5)
+        four_summary = summarise(four_star, 4)
 
-    st.subheader("4-star reviews (" + str(len(four_star)) + ")")
-    for review in four_star:
-        st.write("- " + review)
+    st.subheader("5-star summary")
+    st.write(five_summary)
+
+    st.subheader("4-star summary")
+    st.write(four_summary)
