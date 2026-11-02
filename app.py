@@ -33,7 +33,7 @@ PROMPTS = {
     ),
     "Prompt D: short and strict": (
         "Here are {stars}-star customer reviews of a beauty product. "
-        "Write a summary of at most 2 short sentences, under 35 words in total. "
+        "Write a summary of at most 2 short sentences, under 50 words in total. "
         "Say only what most reviewers agree on. "
         "If reviewers disagree on something, go with the majority view. "
         "Do not repeat yourself. Do not use the phrases 'real buyers' or 'customers say'. "
