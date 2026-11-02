@@ -31,6 +31,14 @@ PROMPTS = {
         "what real buyers experienced. Do not exaggerate or invent anything. "
         "If reviewers disagree, say so.\n\n{reviews}"
     ),
+    "Prompt D: short and strict": (
+        "Here are {stars}-star customer reviews of a beauty product. "
+        "Write a summary of at most 2 short sentences, under 35 words in total. "
+        "Say only what most reviewers agree on. "
+        "If reviewers disagree on something, go with the majority view. "
+        "Do not repeat yourself. Do not use the phrases 'real buyers' or 'customers say'. "
+        "Use only what is in the reviews.\n\n{reviews}"
+    ),
 }
 
 
@@ -54,16 +62,28 @@ def summarise(reviews, stars, prompt_name):
     return ask_ai(prompt)
 
 
-def pros_and_cons(all_reviews):
-    prompt = (
-        "Here are customer reviews of a beauty product. "
-        "Write exactly 3 bullet points for the top pros. "
-        "Then write a line containing only --- . "
-        "Then write exactly 3 bullet points for the top cons. "
-        "Use only what is in the reviews. Write nothing else.\n\n"
-        + "\n".join(all_reviews)
-    )
-    return ask_ai(prompt)
+def pros_and_cons(all_reviews, prompt_name):
+    if prompt_name.startswith("Prompt D"):
+        instructions = (
+            "Here are customer reviews of a beauty product. "
+            "Write exactly 3 bullet points for the top pros. "
+            "Then write a line containing only --- . "
+            "Then write exactly 3 bullet points for the top cons. "
+            "Each bullet must be 6 words or fewer, not a full sentence. "
+            "Choose the points that the most reviews mention. "
+            "If reviews disagree on a point, go with the majority view, "
+            "and never list the same point as both a pro and a con. "
+            "Use only what is in the reviews. Write nothing else.\n\n"
+        )
+    else:
+        instructions = (
+            "Here are customer reviews of a beauty product. "
+            "Write exactly 3 bullet points for the top pros. "
+            "Then write a line containing only --- . "
+            "Then write exactly 3 bullet points for the top cons. "
+            "Use only what is in the reviews. Write nothing else.\n\n"
+        )
+    return ask_ai(instructions + "\n".join(all_reviews))
 
 
 st.title("Nykaa review summariser")
@@ -91,7 +111,7 @@ if st.button("Summarise reviews"):
     with st.spinner("Reading the reviews..."):
         five_summary = summarise(five_star, 5, prompt_name)
         four_summary = summarise(four_star, 4, prompt_name)
-        pc_text = pros_and_cons(five_star + four_star)
+        pc_text = pros_and_cons(five_star + four_star, prompt_name)
 
     st.caption("Prompt used: " + prompt_name)
 
