@@ -8,7 +8,7 @@ client = genai.Client(
     api_key=st.secrets["GEMINI_API_KEY"],
     http_options=types.HttpOptions(timeout=60000),
 )
-MODEL = "gemini-3.8-flash"
+MODEL = "gemini-3.8-flash-tts"
 
 
 def summarise(reviews, stars):
