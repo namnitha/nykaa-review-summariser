@@ -1,9 +1,11 @@
 import streamlit as st
 from google import genai
+from google.genai import types
 
-client = genai.Client(api_key=st.secrets["GEMINI_API_KEY"])
-MODEL = "gemini-3.8-flash"
-
+client = genai.Client(
+    api_key=st.secrets["GEMINI_API_KEY"],
+    http_options=types.HttpOptions(timeout=30000),
+)
 
 def summarise(reviews, stars):
     if len(reviews) == 0:
