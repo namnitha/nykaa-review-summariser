@@ -10,6 +10,29 @@ client = genai.Client(
 )
 MODEL = "gemini-3.5-flash-lite"
 
+PROMPTS = {
+    "Prompt A: simple": (
+        "Here are {stars}-star customer reviews of a beauty product. "
+        "Summarise them in one short paragraph. Mention what customers say most often. "
+        "Use only what is in the reviews.\n\n{reviews}"
+    ),
+    "Prompt B: structured": (
+        "Here are {stars}-star customer reviews of a beauty product. "
+        "Write one paragraph of exactly 3 sentences. "
+        "Sentence 1: what customers love most. "
+        "Sentence 2: the details they mention most often, such as shade, texture or wear time. "
+        "Sentence 3: any small complaints or doubts. "
+        "Use only what is in the reviews.\n\n{reviews}"
+    ),
+    "Prompt C: shopper-focused": (
+        "You are helping a shopper in India decide whether to buy a beauty product. "
+        "Below are {stars}-star customer reviews. "
+        "Write one short paragraph in plain, friendly language that tells the shopper "
+        "what real buyers experienced. Do not exaggerate or invent anything. "
+        "If reviewers disagree, say so.\n\n{reviews}"
+    ),
+}
+
 
 def ask_ai(prompt):
     for attempt in range(3):
@@ -22,15 +45,12 @@ def ask_ai(prompt):
             time.sleep(5)
 
 
-def summarise(reviews, stars):
+def summarise(reviews, stars, prompt_name):
     if len(reviews) == 0:
         return "No " + str(stars) + "-star reviews were pasted."
 
-    prompt = (
-        "Here are " + str(stars) + "-star customer reviews of a beauty product. "
-        "Summarise them in one short paragraph. Mention what customers say most often. "
-        "Use only what is in the reviews.\n\n" + "\n".join(reviews)
-    )
+    template = PROMPTS[prompt_name]
+    prompt = template.format(stars=stars, reviews="\n".join(reviews))
     return ask_ai(prompt)
 
 
@@ -50,6 +70,8 @@ st.title("Nykaa review summariser")
 
 product = st.text_input("Product name")
 
+prompt_name = st.selectbox("Which prompt should the AI use?", list(PROMPTS.keys()))
+
 reviews = st.text_area(
     "Paste reviews here (start each line with 5: or 4:)",
     height=250,
@@ -67,9 +89,11 @@ if st.button("Summarise reviews"):
             four_star.append(line[2:].strip())
 
     with st.spinner("Reading the reviews..."):
-        five_summary = summarise(five_star, 5)
-        four_summary = summarise(four_star, 4)
+        five_summary = summarise(five_star, 5, prompt_name)
+        four_summary = summarise(four_star, 4, prompt_name)
         pc_text = pros_and_cons(five_star + four_star)
+
+    st.caption("Prompt used: " + prompt_name)
 
     st.subheader("5-star summary")
     st.write(five_summary)
