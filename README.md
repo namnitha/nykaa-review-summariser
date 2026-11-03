@@ -8,7 +8,7 @@ A small web app that turns pasted customer reviews into quick insights.
 
 
 ## What it does
-- Takes 5-star and 4-star product reviews pasted from Nykaa
+- Takes 5-star, 4-star and 3-star product reviews pasted from Nykaa
 - Writes a short summary paragraph for each rating group
 - Lists the top 3 pros and top 3 cons based on the reviews
 
@@ -27,7 +27,8 @@ Python, Streamlit, Google Gemini API
 
 ## Limitations and next steps
 - Reviews are pasted in manually, not fetched automatically
-- Next: add 3-star reviews, and try different prompts to compare summary quality
+- Tested on a small number of products, so results may vary on others
+- Next: try a different AI model and compare summary quality
 
 ## Prompt experiment
 
