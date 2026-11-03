@@ -33,7 +33,7 @@ PROMPTS = {
     ),
     "Prompt D: short and strict": (
         "Here are {stars}-star customer reviews of a beauty product. "
-        "Write a summary of at most 2 short sentences, under 50 words in total. "
+        "Write a summary of at most 3 short sentences, under 50 words in total. "
         "Say only what most reviewers agree on. "
         "If reviewers disagree on something, go with the majority view. "
         "Do not repeat yourself. Do not use the phrases 'real buyers' or 'customers say'. "
@@ -93,13 +93,14 @@ product = st.text_input("Product name")
 prompt_name = st.selectbox("Which prompt should the AI use?", list(PROMPTS.keys()))
 
 reviews = st.text_area(
-    "Paste reviews here (start each line with 5: or 4:)",
+    "Paste reviews here (start each line with 5: or 4: or 3:)",
     height=250,
 )
 
 if st.button("Summarise reviews"):
     five_star = []
     four_star = []
+    three_star = []
 
     for line in reviews.split("\n"):
         line = line.strip()
@@ -107,11 +108,15 @@ if st.button("Summarise reviews"):
             five_star.append(line[2:].strip())
         elif line.startswith("4:"):
             four_star.append(line[2:].strip())
+        elif line.startswith("3:"):
+            three_star.append(line[2:].strip())
+
 
     with st.spinner("Reading the reviews..."):
         five_summary = summarise(five_star, 5, prompt_name)
         four_summary = summarise(four_star, 4, prompt_name)
-        pc_text = pros_and_cons(five_star + four_star, prompt_name)
+        three_summary = summarise(three_star, 3, prompt_name)
+        pc_text = pros_and_cons(five_star + four_star + three_star, prompt_name)
 
     st.caption("Prompt used: " + prompt_name)
 
@@ -120,6 +125,9 @@ if st.button("Summarise reviews"):
 
     st.subheader("4-star summary")
     st.write(four_summary)
+
+    st.subheader("3-star summary")
+    st.write(three_summary)
 
     st.subheader("Highlights")
     parts = pc_text.split("---")
