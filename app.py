@@ -37,6 +37,7 @@ PROMPTS = {
         "Say only what most reviewers agree on. "
         "If reviewers disagree on something, go with the majority view. "
         "Do not repeat yourself. Do not use the phrases 'real buyers' or 'customers say'. "
+        "claim as a general review only when it has been told by more than three reviewers."
         "Use only what is in the reviews.\n\n{reviews}"
     ),
 }
