@@ -4,10 +4,18 @@ A small web app that turns pasted customer reviews into quick insights.
 
 **Live app:** (https://nykaa-review-summariser-bbrxsbakbktntz2zoie3bq.streamlit.app/)
 
-![App screenshot](screenshot.png)
-
-![App screenshot](screenshot_1.png)
-
+<table align="center">
+  <tr>
+    <td align="center">
+      <img src="screenshot.png" alt="App screenshot 1" width="350px" /><br />
+      <sub><b>Image 1: Tested on a basic simple prompt with 5 and 4 star reviews. </b> Home screen dashboard layout.</sub>
+    </td>
+    <td align="center">
+      <img src="screenshot_1.png" alt="App screenshot 2" width="350px" /><br />
+      <sub><b>Image 2: Picked a specific prompt to get sharp results and added 3 star reviews.</b> User profile settings page.</sub>
+    </td>
+  </tr>
+</table>
 
 
 ## What it does
