@@ -6,6 +6,9 @@ A small web app that turns pasted customer reviews into quick insights.
 
 ![App screenshot](screenshot.png)
 
+![App screenshot](screenshot_1.png)
+
+
 
 ## What it does
 - Takes 5-star, 4-star and 3-star product reviews pasted from Nykaa
