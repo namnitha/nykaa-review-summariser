@@ -43,7 +43,7 @@ Python, Streamlit, Google Gemini API
 
 ## Prompt experiment
 
-I tested 4 different prompts on the same 10 reviews (5 five-star, 5 four-star) of one foundation, and scored each from 1 to 5 on four questions: Accurate, Complete, Useful, Concise.
+I tested 4 different prompts on the same 15 reviews (5 five-star, 5 four-star, 5 three-star) of one foundation, and scored each from 1 to 5 on four questions: Accurate, Complete, Useful, Concise.
 
 | Prompt | Accurate | Complete | Useful | Concise | Total |
 |---|---|---|---|---|---|
@@ -59,6 +59,6 @@ I tested 4 different prompts on the same 10 reviews (5 five-star, 5 four-star) o
 - A 50-word limit risked cutting out important points, so I raised it to 50 words. Prompt D then wrote 78 words in total and scored best.
 
 **What I'd improve next**
-- Stop the AI saying "many reviewers" when only one said it
+- Stop the AI saying "many reviewers" and generalising the review when only one said it 
 - Test on more products and more reviews
 - Take the review as many "only say ‘many’ if three or more reviews agree"
